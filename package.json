@@ -1,0 +1,20 @@
+{
+  "name": "industry_level_project",
+  "version": "1.0.0",
+  "description": "Full_stack_app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "javascript",
+    "express"
+  ],
+  "author": "Adarsh Mishra",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2"
+  }
+}
