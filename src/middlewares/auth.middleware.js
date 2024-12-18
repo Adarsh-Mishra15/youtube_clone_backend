@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken"
-import { ApiError } from "../utils/apierror"
-import {asyncHandler} from "../utils/asynchandler"
-import { User } from "../models/user.models"
+import { ApiError } from "../utils/apierror.js"
+import {asyncHandler} from "../utils/asynchandler.js"
+import { User } from "../models/user.models.js"
 
 const verifyJWT = asyncHandler(async(req,res,next)=>{
-    const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
+    const token =await req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
 
     if(!token)
     {
@@ -19,7 +19,8 @@ if(!user)
     throw new ApiError(401,"Inavalid access token")
 }
 
-    req.user = usernext()
+    req.user = user
+    next()
 })
 
 export {verifyJWT}

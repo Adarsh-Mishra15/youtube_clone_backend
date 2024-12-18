@@ -10,12 +10,33 @@ const userSchema = new Schema(
             lowercase:true,
             trim:true,
             index:true}, // Username saved in database in lowercase
-        fullName:{type:String,trim:true,index:true},
-        password:{type:String,required:true,required:[true,"Password is required"]},
-        avatar:{type:String, required:true}, // cloudinary url
+        fullName:{
+            type:String,
+            trim:true,
+            index:true
+        },
+        password:{
+            type:String,
+            required:true,
+            required:[true,"Password is required"]
+        },
+        avatar:{
+            type:String,
+             required:true
+            }, // cloudinary url
         coverImage:{type:String}, // cloudinary url
-        email:{type:String,required:true,unique:true,lowercase:true},
-        watchHistory:{type:Schema.Types.ObjectId, ref:"Video"}
+        email:{
+            type:String,
+            required:true,
+            unique:true,
+            lowercase:true
+        },
+        watchHistory:{
+            type:Schema.Types.ObjectId,
+             ref:"Video"},
+        refreshToken:{
+            type:String
+        }
     },
     {
         timestamps:true
