@@ -18,8 +18,14 @@ app.use(express.static("public")); // Serve static assets from the "public" fold
 app.use(cookieParser()); // Correctly call cookieParser middleware
 
 // Routes declaration
+
+// user routes declaration
 import userRoutes from "./routes/user.routes.js"
 app.use("/api/v1/users", userRoutes);
+
+// Video route declaration
+import videoRoutes from "./routes/video.routes.js"
+app.use("/api/v1/video",videoRoutes)
 
 
 export default app;

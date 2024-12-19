@@ -54,8 +54,6 @@ userSchema.methods.isPasswordCorrect = async function (plainPassword) {
     if (!plainPassword) {
         throw new Error("Password is required for comparison");
     }
-    console.log("incoming password",plainPassword)
-    console.log("password", this.password)
     return bcrypt.compare(plainPassword, this.password); // `this.password` should be the hashed password stored in the database
 };
 

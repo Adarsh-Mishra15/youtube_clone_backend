@@ -233,30 +233,11 @@ const changeCurrentPassword = asyncHandler(async(req,res)=>{
 })
 
 const getCurrentUser = asyncHandler(async(req,res)=>{
-   const token = req.cookies?.refreshToken
-   if(!token)
-   {
-      throw new ApiError(400, "Unauthorized access")
-   }
-
-   const decoded_token =  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET)
-
-   if(!decoded_token)
-   {
-      throw new ApiError(400,"refresh token has expired")
-   }
-
-      const user = await User.findById(decoded_token?._id).select("-password -refreshToken")
-
-      if(!user)
-      {
-         throw new ApiError(404,"User not found")
-      }
-
+   
       return res
                .status(200)
                .json(
-                  (new ApiResponse(200,user,"Fetched user data successfully"))
+                  (new ApiResponse(200,req.user,"Fetched user data successfully"))
                )
 })
 

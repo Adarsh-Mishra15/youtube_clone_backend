@@ -11,7 +11,7 @@ const videoSchema = new Schema(
         dislikes:{type:Number,default:0},
         comments:{type:Array,default:[]},
         owner:{type:Schema.Types.ObjectId,ref:"User"},
-        duration:{type:Number, required:true},
+        duration:{type:Number,required:true},
         isPublished:{type:Boolean, dafault:true}
     },
     {
