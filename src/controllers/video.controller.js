@@ -53,7 +53,6 @@ const publishAVideo = asyncHandler(async (req, res) => {
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: get video by id
-    console.log("video Id:  ",videoId);
 
     if (!mongoose.Types.ObjectId.isValid(videoId)) {
         throw new ApiError(400, "Invalid video ID");
@@ -80,15 +79,111 @@ const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: update video details like title, description, thumbnail
 
+    if(!videoId)
+    {
+        throw new ApiError(400,"Video ID in url is required")
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(videoId)) {
+        throw new ApiError(400, "Invalid video ID");
+    }
+
+    const video = await Video.findById(videoId)
+
+    if(!video)
+    {
+        throw new ApiError(400,"No video exist")
+    }
+
+    const {title, description} = req.body
+
+    if(!(title && description))
+    {
+        throw new ApiError(400,"All fields are required")
+    }
+
+    
+    const thumbnailLocalPath = req.file?.path
+
+    if(!thumbnailLocalPath)
+    {
+        throw new ApiError(400,"thumbnail is requied")
+    }
+
+    const thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+
+    if(!thumbnail.url)
+    {
+        throw new ApiError(400,"Failed to upload thumbnail")
+    }
+    
+    await Video.findByIdAndUpdate(videoId,{
+        title:title,
+        description:description,
+        thumbnail:thumbnail.url
+    })
+
+    return res
+            .status(200)
+            .json(
+                (new ApiResponse(200,"fields updated"))
+            )
+
 })
 
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: delete video
+
+    if(!videoId)
+    {
+        throw new ApiError(400,"video id required")
+    }
+
+    if(!(mongoose.Types.ObjectId.isValid(videoId)))
+    {
+        throw new ApiError(400,"Invalid video id")
+    }
+
+    await Video.findByIdAndDelete(videoId)
+
+    return res
+            .status(200)
+            .json(
+                (new ApiResponse(200,"Video deleted successfully"))
+            )
+
 })
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
+
+    if(!videoId)
+    {
+        throw new ApiError(400,"video id required")
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(videoId))
+    {
+        throw new ApiError(400,"Invalid video id")
+    }
+
+    const video = await Video.findByIdAndUpdate(videoId)
+
+    if(!video)
+    {
+        throw new ApiError(400,"video does not exist")
+    }
+
+    video.isPublished = !video.isPublished
+
+    video.save({validateBeforeSave:false})
+
+    return res
+            .status(200)
+            .json(
+                (new ApiResponse(200,"Video status updated successfully"))
+            )
 })
 
 export {
