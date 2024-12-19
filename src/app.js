@@ -27,5 +27,9 @@ app.use("/api/v1/users", userRoutes);
 import videoRoutes from "./routes/video.routes.js"
 app.use("/api/v1/video",videoRoutes)
 
+// Playlist route declaration
+import playlistRoutes from "./routes/playlist.routes.js"
+app.use("/api/v1/playlist",playlistRoutes)
+
 
 export default app;

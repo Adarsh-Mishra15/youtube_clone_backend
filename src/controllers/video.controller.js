@@ -1,6 +1,5 @@
 import mongoose, {isValidObjectId} from "mongoose"
 import {Video} from "../models/video.models.js"
-import {User} from "../models/user.models.js"
 import {ApiError} from "../utils/apierror.js"
 import {ApiResponse} from "../utils/apiresponse.js"
 import {asyncHandler} from "../utils/asynchandler.js"
@@ -20,7 +19,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     }
 
     if (userId) {
-        filter.userId = userId; // Filter videos by userId if provided
+        filter.owner = (userId); // Filter videos by userId if provided
     }
 
     // Sorting
