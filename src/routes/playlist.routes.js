@@ -10,14 +10,29 @@ import {
     updatePlaylist
 } from "../controllers/playlist.controller.js";
 
-const router = Router()
+const router = Router();
 
-router.route('/create-playlist').post(verifyJWT,createPlaylist)
-router.route('/c/:userId/get-playlists').get(verifyJWT,getUserPlaylists)
-router.route('/c/:playlistId/get-playlistById').get(verifyJWT,getPlaylistById)
-router.route('/c/:playlistId/add-video/:videoId').get(verifyJWT,addVideoToPlaylist)
-router.route('/c/:playlistId/delete-video/:videoId').get(verifyJWT,removeVideoFromPlaylist)
-router.route('/c/:playlistId/delete-playlist').get(verifyJWT,deletePlaylist)
-router.route('/c/:playlistId/update-playlist').post(verifyJWT,updatePlaylist)
+// route updated based on standard methods
 
-export default router
+// Create a new playlist
+router.post('/create', verifyJWT, createPlaylist);
+
+// Get all playlists for a user
+router.get('/:userId/get-playlists', verifyJWT, getUserPlaylists);
+
+// Get a specific playlist by ID
+router.get('/:playlistId', verifyJWT, getPlaylistById);
+
+// Add a video to a playlist
+router.put('/:playlistId/video/:videoId', verifyJWT, addVideoToPlaylist);
+
+// Remove a video from a playlist
+router.delete('/:playlistId/video/:videoId', verifyJWT, removeVideoFromPlaylist);
+
+// Delete a playlist
+router.delete('/:playlistId', verifyJWT, deletePlaylist);
+
+// Update a playlist
+router.patch('/:playlistId', verifyJWT, updatePlaylist);
+
+export default router;

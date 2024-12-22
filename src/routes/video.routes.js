@@ -23,14 +23,13 @@ router.route('/publish-video').post(verifyJWT,upload.fields([
     }
 ]),publishAVideo)
 
-router.route('/c/:videoId').get(getVideoById)
-router.route('/c/:videoId/update-video').post(verifyJWT,upload.single("thumbnail") ,updateVideo)
-router.route('/c/:videoId/delete-video').get(verifyJWT,deleteVideo)
-router.route('/c/:videoId/toggle-video').get(verifyJWT,togglePublishStatus)
+router.route('/:videoId').get(getVideoById)
+router.route('/:videoId').patch(verifyJWT,upload.single("thumbnail") ,updateVideo)
+router.route('/:videoId').delete(verifyJWT,deleteVideo)
+router.route('/:videoId/toggle-video').get(verifyJWT,togglePublishStatus)
 
 // Route to get all videos with optional filters, sorting, and pagination
 router.get("/", getAllVideos);
-
 
 
 export default router

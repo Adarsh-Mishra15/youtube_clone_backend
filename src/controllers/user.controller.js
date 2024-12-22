@@ -4,6 +4,7 @@ import { ApiError } from "../utils/apierror.js";
 import { uploadOnCloudinary} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiresponse.js";
 import jwt from "jsonwebtoken"
+import {sendPasswordChangeNotification} from "../utils/emailService.js"
 
 
 const generateAccessAndRefereshTokens = async(userId) =>{
@@ -225,6 +226,8 @@ const changeCurrentPassword = asyncHandler(async(req,res)=>{
    user.password = newPassword
    await user.save({validateBeforeSave:false})
 
+   await sendPasswordChangeNotification(req.user.email,req.user.username)
+   
    return res
          .status(200)
          .json(
@@ -262,8 +265,6 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
       new:true
    }
 )
-   
-   console.log("User data", user.username)
 
    return res
             .status(200)
