@@ -7,45 +7,43 @@ import { asyncHandler } from "../utils/asynchandler.js";
 import { Comment } from "../models/comment.models.js";
 
 const getVideoComments = asyncHandler(async (req, res) => {
-    const { videoId } = req.params;
-    const { page = 1, limit = 2, sortBy = 'createdAt', sortType = 'desc' } = req.query;
+    //TODO: get all comments for a video
+    const {videoId} = req.params
+    const {page = 1, limit = 2, sortBy='createdAt', sortType='desc'} = req.query
 
-    // Build sort options
-    const sortOptions = {};
-    sortOptions[sortBy] = sortType === 'asc' ? 1 : -1;
+   // Build sort options
+   const sortOptions = {};
+   sortOptions[sortBy || 'createdAt'] = sortType === 'asc' ? 1 : -1;
 
-    // Pagination calculations
-    const skip = (page - 1) * limit;
-
-    // Fetch video with populated comments
-    const video = await Video.findById(videoId)
-        .populate({
-            path: 'comments', // Path to populate
-            options: {
-                sort: sortOptions,
-                skip: skip,
-                limit: parseInt(limit),
-            },
-        });
-
-    if (!video) {
-        throw new ApiError('Video not found', 404);
+   const video = await Video.findById(videoId)
+   if(!video) {
+    throw new ApiError('Video not found', 404)
     }
 
-    // Get total comments count
-    const total = video.comments.length;
+    const skip = (page-1) * limit
 
-    // Return response
-    return res.status(200).json({
-        success: true,
-        data: video.comments, // Populated comments
-        pagination: {
-            total,
-            page: parseInt(page),
-            limit: parseInt(limit),
-        },
-    });
-});
+    const comments = await Comment.find({_id:{ $in: video.comments }})
+                                        .sort(sortOptions)
+                                        .skip(skip)
+                                        .limit(parseInt(limit))
+     //
+     const total = video.comments.length
+
+    return res
+            .status(200)
+            .json(
+                {
+                    success:true,
+                    data: comments,
+                    pagination:{
+                        total,
+                        page: parseInt(page),
+                        limit: parseInt(limit),
+                    },
+                }
+            )
+})
+
 
 
 const addComment = asyncHandler(async (req, res) => {

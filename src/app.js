@@ -36,4 +36,8 @@ app.use("/api/v1/playlist",playlistRoutes)
 import commentRoutes from "./routes/comment.routes.js"
 app.use("/api/v1/comment",commentRoutes)
 
+
+// Like routes declaration
+import likeRoutes from "./routes/like.routes.js"
+app.use("/api/v1/likes",likeRoutes)
 export default app;
