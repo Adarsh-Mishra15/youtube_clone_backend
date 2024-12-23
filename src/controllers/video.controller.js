@@ -79,7 +79,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
             owner:req.user._id,
             thumbnail:thumbnail.url,
             isPublished:true,
-            duration:videoOnCloud.duration
+            duration:videoOnCloud.duration,
         }
     )
 

@@ -32,4 +32,8 @@ import playlistRoutes from "./routes/playlist.routes.js"
 app.use("/api/v1/playlist",playlistRoutes)
 
 
+// Comment route declaration
+import commentRoutes from "./routes/comment.routes.js"
+app.use("/api/v1/comment",commentRoutes)
+
 export default app;
