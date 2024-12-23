@@ -40,4 +40,8 @@ app.use("/api/v1/comment",commentRoutes)
 // Like routes declaration
 import likeRoutes from "./routes/like.routes.js"
 app.use("/api/v1/likes",likeRoutes)
+
+// tweet routes declaration
+import tweetRoutes from "./routes/tweet.routes.js"
+app.use("/api/v1/tweets",tweetRoutes)
 export default app;
