@@ -7,49 +7,46 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 2, query, sortBy, sortType, userId } = req.query;
+    const { page = 1, limit = 1, query, sortBy, sortType, userId } = req.query;
     //TODO: get all videos based on query, sort, pagination
 
-    // Build a dynamic query object
-    const filter = {};
+    const filter ={}
 
-    // Add query filters
-    if (query) {
-        filter.title = { $regex: query, $options: "i" }; // Case-insensitive search for the title
+    if(query)
+    {
+        filter.title = title
     }
 
-    if (userId) {
-        filter.owner = (userId); // Filter videos by userId if provided
+    if(userId)
+    {
+        filter.userId = userId
     }
 
-    // Sorting
-    const sortOptions = {};
-    sortOptions[sortBy] = sortType === "asc" ? 1 : -1;
+    const skip = (page-1)* limit;
 
-    // Pagination calculations
-    const skip = (page - 1) * limit;
-
-    console.log(sortOptions)
-
-    // Fetch videos with the applied filters, sorting, and pagination
+    const sortOptions={}
+    sortOptions[sortBy] = sortType ==="asc"?1:-1
     const videos = await Video.find(filter)
-        .sort(sortOptions)
-        .skip(skip)
-        .limit(parseInt(limit));
+                            .sort(sortOptions)
+                            .skip(skip)
+                            .limit(parseInt(limit))
 
-    // Fetch total count for pagination metadata
-    const total = await Video.countDocuments(filter);
+    const total = await Video.countDocuments(userId)
 
-    // Return the response
-    return res.status(200).json({
-        success: true,
-        data: videos,
-        pagination: {
-            total,
-            page: parseInt(page),
-            limit: parseInt(limit),
-        },
-    });
+    return res
+            .json(
+                {
+                    status: "success",
+                    data: videos,
+                    message: "Videos retrieved successfully",
+                    pagination:{
+                        total,
+                        limit,
+                        page,
+
+                    }
+                }
+            )
 });
 
 
