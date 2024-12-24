@@ -19,6 +19,10 @@ app.use(cookieParser()); // Correctly call cookieParser middleware
 
 // Routes declaration
 
+//healthCheck route Declaration
+import healthCheckRoutes from "./routes/healthcheck.routes.js"
+app.use("/api/v1/healthcheck", healthCheckRoutes);
+
 // user routes declaration
 import userRoutes from "./routes/user.routes.js"
 app.use("/api/v1/users", userRoutes);
