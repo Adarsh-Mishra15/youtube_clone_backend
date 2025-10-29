@@ -31,7 +31,6 @@ This project focuses on creating a scalable, secure, and modular RESTful API tha
 - RESTful APIs with proper status codes and validation.
 - Centralized error handling and logging middleware.
 - Optimized **Mongoose aggregation pipelines** for faster query performance.
-- Tested with **JMeter** to handle 10K+ requests per second.
 
 ---
 
